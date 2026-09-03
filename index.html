@@ -3,28 +3,61 @@ layout: default
 title: Home
 ---
 
-<div class="Home">
-  <p class="Home-about">
-  BitDevs é uma comunidade para aqueles interessados em discutir e participar na pesquisa e desenvolvimento do Bitcoin e protocolos relacionados.
-  </p>
+<div class="Home-posts">
+  <h2 class="Home-posts-title">Eventos recentes e próximos</h2>
 
-  <div class="Home-posts">
-    <h2 class="Home-posts-title">Eventos recentes e próximos</h2>
-    {% assign event_posts = 7 %}
-    {% assign counter = 0 %}
-    {% for post in site.posts %}
-      {% if post.type == "socratic" or post.type == "whitepaper"%}
+  <h3 class="Home-posts-subtitle">São Carlos</h3>
+
+  {% assign event_posts = 7 %}
+  {% assign counter = 0 %}
+
+  {% for post in site.posts %}
+    {% if post.city == "sao-carlos" %}
+      {% if post.type == "socratic" or post.type == "whitepaper" %}
         <div class="Home-posts-post">
-          <span class="Home-posts-post-date">{{ post.date | date_to_string }}</span>
+          <span class="Home-posts-post-date">
+            {{ post.date | date_to_string }}
+          </span>
           <span class="Home-posts-post-arrow">&raquo;</span>
-          <a class="Home-posts-post-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          <a class="Home-posts-post-title" href="{{ post.url }}">
+            {{ post.title }}
+          </a>
         </div>
+
         {% assign counter = counter | plus: 1 %}
+
         {% if counter == event_posts %}
-          {% break %} {% comment %}exit the for loop{% endcomment %}
+          {% break %}
         {% endif %}
       {% endif %}
-    {% endfor %}
-    <p><a href="{{ "/events.html" | relative_url }}">Ver todos os eventos</a></p>
-  </div>
- 
+    {% endunless %}
+  {% endfor %}
+
+  <h3 class="Home-posts-subtitle">Ribeirão Preto</h3>
+
+  {% assign counter = 0 %}
+
+  {% for post in site.posts %}
+    {% if post.city == "ribeirao-preto" %}
+      {% if post.type == "socratic" or post.type == "whitepaper" %}
+        <div class="Home-posts-post">
+          <span class="Home-posts-post-date">
+            {{ post.date | date_to_string }}
+          </span>
+          <span class="Home-posts-post-arrow">&raquo;</span>
+          <a class="Home-posts-post-title" href="{{ post.url }}">
+            {{ post.title }}
+          </a>
+        </div>
+
+        {% assign counter = counter | plus: 1 %}
+
+        {% if counter == event_posts %}
+          {% break %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  <p><a href="/events.html">Ver todos os eventos</a></p>
+</div>

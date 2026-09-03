@@ -1,8 +1,9 @@
 ---
 layout: post
 type: socratic
+city: ribeirao-preto
 title: "Seminário Socrático 001"
-meetup: https://app.evento.so/e/evt_Zn3AgW2oefGNk6Ws
+meetup: 
 ---
 
 ## Avisos
