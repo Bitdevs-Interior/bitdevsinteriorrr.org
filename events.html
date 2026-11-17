@@ -3,39 +3,61 @@ layout: default
 title: Meetings
 ---
 
-<div class="Home">
-  <div class="Home-posts">
-    <h2 class="Home-posts-title">São Carlos</h2>
+{% assign build_ts = site.time | date: "%s" | plus: 0 %}
+{% assign cutoff_ts = build_ts | minus: 86400 %}
+{% assign upcoming_count = 0 %}
+{% for post in site.posts %}
+  {% if post.type == "socratic" %}
+    {% assign post_ts = post.date | date: "%s" | plus: 0 %}
+    {% if post_ts > cutoff_ts %}
+      {% assign upcoming_count = upcoming_count | plus: 1 %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
 
-    {% for post in site.posts %}
-      {% if post.city == "sao-carlos" and post.type == "socratic" %}
-        <div class="Home-posts-post">
-          <span class="Home-posts-post-date">
-            {{ post.date | date_to_string }}
-          </span>
-          <span class="Home-posts-post-arrow">&raquo;</span>
-          <a class="Home-posts-post-title" href="{{ post.url }}">
-            {{ post.title }}
-          </a>
-        </div>
+<div class="Home">
+  {% if upcoming_count > 0 %}
+  <div class="Home-posts">
+    <h2 class="Home-posts-title">Próximos eventos</h2>
+
+    {% for post in site.posts reversed %}
+      {% if post.type == "socratic" %}
+        {% assign post_ts = post.date | date: "%s" | plus: 0 %}
+        {% if post_ts > cutoff_ts %}
+          <div class="Home-posts-post">
+            <span class="Home-posts-post-date">
+              {{ post.date | date_to_string }}
+            </span>
+            <span class="Home-posts-post-arrow">&raquo;</span>
+            <a class="Home-posts-post-title" href="{{ post.url }}">
+              {{ post.title }}
+            </a>
+            <span class="Home-posts-post-city">{{ site.data.cities[post.city] | default: post.city }}</span>
+          </div>
+        {% endif %}
       {% endif %}
     {% endfor %}
   </div>
+  {% endif %}
 
   <div class="Home-posts">
-    <h2 class="Home-posts-title">Ribeirão Preto</h2>
+    <h2 class="Home-posts-title">Seminários anteriores</h2>
 
     {% for post in site.posts %}
-      {% if post.city == "ribeirao-preto" and post.type == "socratic" %}
-        <div class="Home-posts-post">
-          <span class="Home-posts-post-date">
-            {{ post.date | date_to_string }}
-          </span>
-          <span class="Home-posts-post-arrow">&raquo;</span>
-          <a class="Home-posts-post-title" href="{{ post.url }}">
-            {{ post.title }}
-          </a>
-        </div>
+      {% if post.type == "socratic" %}
+        {% assign post_ts = post.date | date: "%s" | plus: 0 %}
+        {% if post_ts <= cutoff_ts %}
+          <div class="Home-posts-post">
+            <span class="Home-posts-post-date">
+              {{ post.date | date_to_string }}
+            </span>
+            <span class="Home-posts-post-arrow">&raquo;</span>
+            <a class="Home-posts-post-title" href="{{ post.url }}">
+              {{ post.title }}
+            </a>
+            <span class="Home-posts-post-city">{{ site.data.cities[post.city] | default: post.city }}</span>
+          </div>
+        {% endif %}
       {% endif %}
     {% endfor %}
   </div>

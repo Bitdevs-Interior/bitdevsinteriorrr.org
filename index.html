@@ -3,17 +3,52 @@ layout: default
 title: Home
 ---
 
-<div class="Home-posts">
-  <h2 class="Home-posts-title">Eventos recentes e próximos</h2>
+{% assign build_ts = site.time | date: "%s" | plus: 0 %}
+{% assign cutoff_ts = build_ts | minus: 86400 %}
+{% assign upcoming_count = 0 %}
+{% for post in site.posts %}
+  {% if post.type == "socratic" or post.type == "whitepaper" %}
+    {% assign post_ts = post.date | date: "%s" | plus: 0 %}
+    {% if post_ts > cutoff_ts %}
+      {% assign upcoming_count = upcoming_count | plus: 1 %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
 
-  <h3 class="Home-posts-subtitle">São Carlos</h3>
+{% if upcoming_count > 0 %}
+<div class="Home-posts">
+  <h2 class="Home-posts-title">Próximos eventos</h2>
+
+  {% for post in site.posts reversed %}
+    {% if post.type == "socratic" or post.type == "whitepaper" %}
+      {% assign post_ts = post.date | date: "%s" | plus: 0 %}
+      {% if post_ts > cutoff_ts %}
+        <div class="Home-posts-post">
+          <span class="Home-posts-post-date">
+            {{ post.date | date_to_string }}
+          </span>
+          <span class="Home-posts-post-arrow">&raquo;</span>
+          <a class="Home-posts-post-title" href="{{ post.url }}">
+            {{ post.title }}
+          </a>
+          <span class="Home-posts-post-city">{{ site.data.cities[post.city] | default: post.city }}</span>
+        </div>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="Home-posts">
+  <h2 class="Home-posts-title">Eventos recentes</h2>
 
   {% assign event_posts = 7 %}
   {% assign counter = 0 %}
 
   {% for post in site.posts %}
-    {% if post.city == "sao-carlos" %}
-      {% if post.type == "socratic" or post.type == "whitepaper" %}
+    {% if post.type == "socratic" or post.type == "whitepaper" %}
+      {% assign post_ts = post.date | date: "%s" | plus: 0 %}
+      {% if post_ts <= cutoff_ts %}
         <div class="Home-posts-post">
           <span class="Home-posts-post-date">
             {{ post.date | date_to_string }}
@@ -22,32 +57,7 @@ title: Home
           <a class="Home-posts-post-title" href="{{ post.url }}">
             {{ post.title }}
           </a>
-        </div>
-
-        {% assign counter = counter | plus: 1 %}
-
-        {% if counter == event_posts %}
-          {% break %}
-        {% endif %}
-      {% endif %}
-    {% endif %}
-  {% endfor %}
-
-  <h3 class="Home-posts-subtitle">Ribeirão Preto</h3>
-
-  {% assign counter = 0 %}
-
-  {% for post in site.posts %}
-    {% if post.city == "ribeirao-preto" %}
-      {% if post.type == "socratic" or post.type == "whitepaper" %}
-        <div class="Home-posts-post">
-          <span class="Home-posts-post-date">
-            {{ post.date | date_to_string }}
-          </span>
-          <span class="Home-posts-post-arrow">&raquo;</span>
-          <a class="Home-posts-post-title" href="{{ post.url }}">
-            {{ post.title }}
-          </a>
+          <span class="Home-posts-post-city">{{ site.data.cities[post.city] | default: post.city }}</span>
         </div>
 
         {% assign counter = counter | plus: 1 %}
