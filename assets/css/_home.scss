@@ -31,6 +31,19 @@
       &-arrow {
         opacity: 0.5;
       }
+
+      &-city {
+        margin-left: 0.5rem;
+        padding: 0 0.35rem;
+        border: 1px solid currentColor;
+        border-radius: 3px;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        opacity: 0.55;
+        white-space: nowrap;
+        vertical-align: middle;
+      }
     }
   }
 }
