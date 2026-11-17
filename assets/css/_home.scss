@@ -33,16 +33,22 @@
       }
 
       &-city {
-        margin-left: 0.5rem;
-        padding: 0 0.35rem;
+        display: inline-block;
+        margin-left: 0.6rem;
+        padding: 0.1rem 0.55rem;
         border: 1px solid currentColor;
-        border-radius: 3px;
-        font-size: 0.7rem;
+        border-radius: 999px;
+        font-size: 0.65rem;
+        line-height: 1.6;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        opacity: 0.55;
+        letter-spacing: 0.08em;
+        opacity: 0.75;
         white-space: nowrap;
-        vertical-align: middle;
+        vertical-align: 0.12em;
+        // Fundo e borda na cor de destaque do tema; se o navegador não souber
+        // color-mix, cai no currentColor das linhas acima.
+        background-color: color-mix(in srgb, var(--primary-color) 16%, transparent);
+        border-color: color-mix(in srgb, var(--primary-color) 55%, transparent);
       }
     }
   }
